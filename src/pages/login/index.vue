@@ -10,7 +10,7 @@
 </template>
 
 <script>
-// import logins from '@/utils/login'
+import logins from '@/utils/login'
 export default {
   data() {
     return {
@@ -44,13 +44,13 @@ export default {
   methods: {
     // 点击登录
     doBind(){
-        // logins({
-        //   success(res){
-        //     setTimeout(()=>{
-        //       wx.navigateBack();
-        //     },1500)
-        //   }
-        // });
+        logins({
+          success(res){
+            setTimeout(()=>{
+              wx.navigateBack();
+            },1500)
+          }
+        });
     },
   }
 };
