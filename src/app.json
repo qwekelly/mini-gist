@@ -1,8 +1,7 @@
 {
   "pages": [
-    "pages/index/main",
-    "pages/logs/main",
-    "pages/counter/main",
+    "pages/home/main",
+    "pages/mine/main",
     "pages/login/main"
   ],
   "window": {
@@ -19,12 +18,12 @@
 
     "list": [{
       "text": "首页",
-      "pagePath": "pages/index/main",
+      "pagePath": "pages/home/main",
       "iconPath": "static/tabs/home.png",
       "selectedIconPath": "static/tabs/home-active.png"
     }, {
-      "text": "登录",
-      "pagePath": "pages/login/main",
+      "text": "我的",
+      "pagePath": "pages/mine/main",
       "iconPath": "static/tabs/orders.png",
       "selectedIconPath": "static/tabs/orders-active.png"
     }],

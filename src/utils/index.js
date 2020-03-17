@@ -426,6 +426,27 @@ export function get_time_diff(time) {
   return diff;
 }
 
+/**
+ * repo更新日期
+ * @param {*} date
+ */
+export function formaDate(date) {
+  const year = date.getFullYear()
+  const month = date.getMonth() + 1
+  const day = date.getDate()
+  return `${year}/${month}/${day}`
+}
+/**
+ * star 超过1000用k的形式表示
+ * @param {*} star
+ */
+export function changeStar(star) {
+  if (star > 1000) {
+    return Math.round(star / 1000 * 10) / 10 + 'k'
+  }
+  return star
+}
+
 export {
   host,
   filePath,
@@ -437,5 +458,7 @@ export {
 
 export default {
   formatNumber,
-  formatTime
+  formatTime,
+  formaDate,
+  changeStar
 }
