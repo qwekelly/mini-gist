@@ -35,7 +35,7 @@ export const getUserFollowing= params => {
   return request(`/users/${params}/following`, 'GET')
 }
 
-// 登录github账号
-export const login= (username, password) => {
-  return request('/login', 'POST', {username, password})
-}
+// // 登录github账号
+// export const login= (username) => {
+//   return request(`/users/${username}`, 'GET')
+// }

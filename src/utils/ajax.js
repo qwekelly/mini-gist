@@ -7,13 +7,17 @@ function request(url,method,data,header={}) {
       url: `${host}${url}`,
       method,
       data,
-      header:{'Accept': 'application/vnd.github.v3.text-match+json'},
+      header: {
+        // 'Accept': 'application/vnd.github.v3.text-match+json',
+        'content-type': 'application/json',
+        // 'Authorization': wx.getStorageSync('Authorization')
+      },
       success: function(res) {
-          wx.hideLoading()
-          resolve(res.data)
+        wx.hideLoading()
+        resolve(res.data)
       },
       fail: function(res) {
-          wx.hideLoading()
+        wx.hideLoading()
       },
       complete: function(res) {
         wx.hideLoading()

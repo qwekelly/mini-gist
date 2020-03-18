@@ -16,10 +16,8 @@
   </div>
 </template>
 <script>
-import { login } from '@/api/index'
-// import User from '@/components/user/user'
-// import { dealUser } from '@/utils'
-// import { mapMutations } from 'vuex'
+import { getUserInfo } from '@/api/index'
+import { base64_encode } from '../../utils/base64'
 
 export default {
   data () {
@@ -30,28 +28,12 @@ export default {
       loginLoading: false
     }
   },
-  // async created () {
-  //   this.getAuth()
-  //   if (this.auth) {
-  //     const me = await this.getMe()
-  //     this.info = me
-  //   }
-  // },
   onLoad () {
 
   },
-  // async onPullDownRefresh () {
-  //   if (this.auth) {
-  //     const me = await this.getMe()
-  //     this.info = me
-  //     wx.stopPullDownRefresh()
-  //   }
-  // },
-  // components: {
-  //   User
-  // },
   methods: {
     async login () {
+      let authorization = ''
       if (!this.username || !this.password) {
         wx.showToast({
           title: '输入不能为空',
@@ -62,36 +44,29 @@ export default {
         return
       }
       this.loginLoading = true
-      const auth = await login(this.username, this.password)
-      this.loginLoading = false
-      // 如果 auth 为空，也就是说账户密码错误什么的
-      if (!auth) {
-        return
+      authorization = 'Basic ' + base64_encode(this.username + ':' + this.password)
+
+      if (authorization.length !== 0) {
+        wx.setStorageSync('Authorization', authorization)
+        const auth = await getUserInfo(this.username)
+        this.loginLoading = false
+        const authStr = JSON.stringify(auth)
+        console.log("github拿到的登陆状态", authStr)
       }
-      const authStr = JSON.stringify(auth)
-      console.log("github拿到的登陆状态", authStr)
-      wx.setStorageSync('auth', authStr)
-      this.comfirmLogin(true)
-      this.auth = true
-      const me = await this.getMe()
+      // const auth = await login(this.username, this.password)
+      // this.loginLoading = false
+      // // 如果 auth 为空，也就是说账户密码错误什么的
+      // if (!auth) {
+      //   return
+      // }
+      // const authStr = JSON.stringify(auth)
+      // console.log("github拿到的登陆状态", authStr)
+      // wx.setStorageSync('auth', authStr)
+      // this.comfirmLogin(true)
+      // this.auth = true
+      // const me = await this.getMe()
       // this.info = me
     },
-    // async getMe () {
-    //   this.infoLogin = true
-    //   const info = dealUser(await api.getMe())
-    //   this.infoLogin = false
-    //   return info
-    // },
-    /**
-     * 获取本地存储的auth
-    */
-    // getAuth () {
-    //   let auth = wx.getStorageSync('auth')
-    //   this.auth = auth
-    // }
-    // ...mapMutations([
-    //   'comfirmLogin'
-    // ])
   }
 }
 </script>
