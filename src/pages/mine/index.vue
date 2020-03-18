@@ -1,35 +1,53 @@
 <template>
   <div class="mine">
-    <img class="logo" src="/static/images/user.png" background-size="cover" />
-    <div class="login-header">
-      <h2>Sign in to GitHub</h2>
+    <User v-if="auth" :info="myInfo" @signOut="signOut"/>
+    <div v-else>
+      <div>
+        <img class="logo" src="/static/images/user.png" background-size="cover" />
+      </div>
+      <div class="login-header">
+        <h2>Sign in to GitHub</h2>
+      </div>
+      <section class="login" id="login">
+        <form class="login-form">
+          <label>Username or email address</label>
+          <input v-model="username" type="text" class="login-input" />
+          <label>Password</label>
+          <input @confirm="login" v-model="password" type="password" class="login-input" />
+          <button :loading=loginLoading type="submit" @click="login" class="login-button">Sign in</button>
+        </form>
+      </section>
     </div>
-    <section class="login" id="login">
-      <form class="login-form">
-        <label>Username or email address</label>
-        <input v-model="username" type="text" class="login-input" placeholder="User" />
-        <label>Password</label>
-        <input @confirm="login" v-model="password" type="password" class="login-input" placeholder="Password" />
-        <button :loading=loginLoading type="submit" @click="login" class="login-button">Sign in</button>
-      </form>
-    </section>
   </div>
 </template>
 <script>
 import { getUserInfo } from '@/api/index'
 import { base64_encode } from '../../utils/base64'
+import User from '../../components/user'
 
 export default {
+  components: {
+    User
+  },
   data () {
     return {
       username: '',
       password: '',
-      auth: '',
+      myInfo: {},
+      auth: false,
       loginLoading: false
     }
   },
   onLoad () {
 
+  },
+  created () {
+    // 从微信存储中查询我的信息
+    let userInfo = wx.getStorageSync('userInfo')
+    if (userInfo) {
+      this.auth = true
+      this.myInfo = userInfo
+    }
   },
   methods: {
     async login () {
@@ -38,7 +56,7 @@ export default {
         wx.showToast({
           title: '输入不能为空',
           icon: 'loading',
-          image: '/static/img/error.png',
+          image: '/static/images/error.png',
           duration: 1200
         })
         return
@@ -46,40 +64,47 @@ export default {
       this.loginLoading = true
       authorization = 'Basic ' + base64_encode(this.username + ':' + this.password)
 
-      if (authorization.length !== 0) {
-        wx.setStorageSync('Authorization', authorization)
-        const auth = await getUserInfo(this.username)
-        this.loginLoading = false
-        const authStr = JSON.stringify(auth)
-        console.log("github拿到的登陆状态", authStr)
-      }
-      // const auth = await login(this.username, this.password)
-      // this.loginLoading = false
-      // // 如果 auth 为空，也就是说账户密码错误什么的
-      // if (!auth) {
-      //   return
-      // }
-      // const authStr = JSON.stringify(auth)
-      // console.log("github拿到的登陆状态", authStr)
-      // wx.setStorageSync('auth', authStr)
-      // this.comfirmLogin(true)
-      // this.auth = true
-      // const me = await this.getMe()
-      // this.info = me
+      wx.setStorageSync('Authorization', authorization)
+      const userInfo = await getUserInfo(this.username)
+      this.loginLoading = false
+      // const authStr = JSON.stringify(userInfo)
+      wx.setStorageSync('userInfo', userInfo)
+      this.auth = true
+      this.myInfo = userInfo
+      console.log('myInfo', userInfo)
     },
+    signOut () {
+      const that = this
+      wx.showModal({
+        content: '确认退出登录?',
+        showCancel: true,
+        cancelText: '取消',
+        cancelColor: '#7f7f7f',
+        confirmText: '确认',
+        confirmColor: '#2d8cf0',
+        success(res) {
+          if (res.confirm) {
+            wx.setStorageSync('Authorization', '')
+            wx.setStorageSync('userInfo', null)
+            that.auth = false
+          } else if (res.cancel) {
+            console.log('用户点击取消')
+          }
+        }
+      })
+    }
   }
 }
 </script>
 <style scoped>
 .mine {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 10px 20px;
 }
 .logo {
+  display: block;
   width: 128rpx;
   height: 128rpx;
-  margin: 20rpx;
+  margin: auto;
   border-radius: 50%;
 }
 .login-header {
