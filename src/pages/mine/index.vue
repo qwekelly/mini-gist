@@ -1,6 +1,6 @@
 <template>
   <div class="mine">
-    <User v-if="auth" :info="myInfo" @signOut="signOut"/>
+    <UserDetail v-if="auth" :info="myInfo" @signOut="signOut"/>
     <div v-else>
       <div>
         <img class="logo" src="/static/images/user.png" background-size="cover" />
@@ -23,11 +23,11 @@
 <script>
 import { getUserInfo } from '@/api/index'
 import { base64_encode } from '../../utils/base64'
-import User from '../../components/user'
+import UserDetail from '../../components/userDetail'
 
 export default {
   components: {
-    User
+    UserDetail
   },
   data () {
     return {

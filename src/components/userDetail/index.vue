@@ -57,9 +57,9 @@ export default {
       console.log('星标文件')
     },
     toFollowers (user) {
-      // wx.navigateTo({
-      //   url: `/pages/followers/followers?login=${user}`
-      // })
+      wx.navigateTo({
+        url: `/pages/followers/main?login=${user}`
+      })
     },
     toFollowing () {
       console.log('标志文件')
