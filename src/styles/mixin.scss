@@ -1,0 +1,20 @@
+// 背景阴影块
+@mixin bg-shadow() {
+  box-shadow: 0 2px 2px #888;
+  background: #fff;
+}
+
+// 省略号
+@mixin text-over() {
+  overflow: hidden;
+  text-overflow:ellipsis;
+  white-space: nowrap;
+}
+
+// 设定多行文本省略号
+@mixin text-over-multiple($num: 2) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $num;
+  overflow: hidden;
+}

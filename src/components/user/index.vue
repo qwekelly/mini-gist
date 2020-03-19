@@ -6,16 +6,26 @@
         <img class="avatar" :src="info['avatar_url']" alt="avatar">
         <div class="top-r">
           <p class="login">{{info.login}}</p>
-          <p>{{info.location}}</p>
-          <p>Joined at {{info['created_at']}}</p>
+          <p><mp-icon icon="location"></mp-icon>{{info.location}}</p>
+          <p>{{info['bio']}}</p>
         </div>
       </div>
-      <div class="sign-out" @click=signOut>Sign out</div>
-      <!-- corner -->
-      <!-- <div @click="follow" v-if="isCornerShow" class="corner">
-        <fixed-corner :content="followContent"></fixed-corner>
-      </div> -->
     </div>
+    <div class="info-card">
+      <div class="follow-area">
+        <p v-if="info.name" class="name">Name: {{info.name}}</p>
+        <p v-else class="name">login name: {{info.login}}</p>
+      </div>
+      <p v-if="info.bio">{{info.bio}}</p>
+      <p v-if="info.company"><span class="icon-users icon"></span>{{info.company}}</p>
+      <p v-if="info.email"><span class="icon-envelop icon"></span>{{info.email}}</p>
+      <p v-if="info.blog"><span class="icon-earth icon"></span>{{info.blog}}</p>
+    </div>
+    <button class="info-tab" @click="toRepos(info['login'])">Repositories<span class="num">{{info['public_repos']}}</span></button>
+    <button class="info-tab" @click="toGists(info['login'])">Gists<span class="num">{{info['public_gists']}}</span></button>
+    <button class="info-tab" @click="toFollowers(info['login'])">Followers<span class="num">{{info['followers']}}</span></button>
+    <button class="info-tab" @click="toFollowing(info['login'])">Following<span class="num">{{info['following']}}</span></button>
+    <button @click="signOut" class="signOut-button">Sign out</button>
   </div>
 </template>
 <script>
@@ -39,15 +49,25 @@ export default {
   methods: {
     signOut () {
       this.$emit('signOut')
+    },
+    toRepos () {
+      console.log('项目文件')
+    },
+    toGists () {
+      console.log('星标文件')
+    },
+    toFollowers (user) {
+      // wx.navigateTo({
+      //   url: `/pages/followers/followers?login=${user}`
+      // })
+    },
+    toFollowing () {
+      console.log('标志文件')
     }
   }
 }
 </script>
 <style scoped lang="scss">
-.info-container {
-  // display: flex;
-  // flex-direction: column;
-}
 .top {
   position: relative;
   background-repeat: no-repeat;
@@ -62,7 +82,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0,153,153,.8);
+    background: rgba(47, 128, 218, 0.8);
   }
   .content {
     position:absolute;
@@ -87,13 +107,6 @@ export default {
       }
     }
   }
-  .sign-out {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 17px 10px 10px;
-    z-index: 10;
-  }
   .corner {
     position: absolute;
     top: 0;
@@ -101,5 +114,47 @@ export default {
     z-index: 10;
   }
 }
-
+.info-card {
+  margin-top: 20px;
+  padding: 10px 20px;
+  font-size: 16px;
+  line-height: 2;
+  border-radius: 3px;
+  background: rgba(47, 128, 218, 0.5);
+  .follow-area {
+    display: flex;
+    .corner {
+      position: absolute;
+      right: 0;
+      align-self: center;
+    }
+  }
+  .name {
+    font-size: 18px;
+  }
+  .icon {
+    padding-right: 15px
+  }
+}
+.info-tab {
+  margin-top: 10px;
+  border-radius: 3px;
+  font-size: 18px;
+  background-color: rgba(47, 128, 218, 0.5);
+  .num {
+    padding: 4px;
+    background-color: rgba(27,31,35,.38);
+    border-radius: 20px;
+    margin-left: 7px;
+  }
+}
+.signOut-button {
+  margin-top: 20px;
+  border: none;
+  border-radius: 3px;
+  font-size: 18px;
+  color: #fff;
+  background-color: #2F80DA;
+  background-image: linear-gradient(-180deg,#2F80DA,#2F80DA 90%);
+}
 </style>

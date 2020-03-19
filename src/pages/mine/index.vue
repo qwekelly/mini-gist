@@ -158,7 +158,9 @@ export default {
   border-radius: 3px;
   font-size: 18px;
   color: #fff;
-  background-color: #28a745;
-  background-image: linear-gradient(-180deg,#34d058,#28a745 90%);
+  /* background-color: #28a745;
+  background-image: linear-gradient(-180deg,#34d058,#28a745 90%); */
+  background-color: #2F80DA;
+  background-image: linear-gradient(-180deg,#2F80DA,#2F80DA 90%);
 }
 </style>
