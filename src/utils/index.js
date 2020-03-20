@@ -276,7 +276,7 @@ function formatNumber (n) {
   return str[1] ? str : `0${str}`
 }
 
-export function formatTime (date) {
+export function formatTime (date, isHour = false) {
   const year = date.getFullYear()
   const month = date.getMonth() + 1
   const day = date.getDate()
@@ -288,7 +288,7 @@ export function formatTime (date) {
   const t1 = [year, month, day].map(formatNumber).join('/')
   const t2 = [hour, minute, second].map(formatNumber).join(':')
 
-  return `${t1} ${t2}`
+  return isHour ? `${t1} ${t2}` : `${t1}`
 }
 
 

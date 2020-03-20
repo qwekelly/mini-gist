@@ -3,7 +3,8 @@
     "pages/home/main",
     "pages/mine/main",
     "pages/login/main",
-    "pages/followers/main"
+    "pages/followers/main",
+    "pages/gists/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

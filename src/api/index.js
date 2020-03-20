@@ -35,6 +35,16 @@ export const getUserFollowing= params => {
   return request(`/users/${params}/following`, 'GET')
 }
 
+// 获取gists列表
+export const getUserGists= user => {
+  return request(`/users/${user}/gists`, 'GET')
+}
+
+// 获取单个gist详情
+export const getGistDetail= (user, gist_id) => {
+  return request(`/users/${user}/gists/${gist_id}`, 'GET')
+}
+
 // // 登录github账号
 // export const login= (username) => {
 //   return request(`/users/${username}`, 'GET')

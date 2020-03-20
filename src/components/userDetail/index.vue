@@ -11,6 +11,7 @@
         </div>
       </div>
     </div>
+    <div class="ghchart" :style="{backgroundImage: 'url(https://ghchart.rshah.org/409ba5/' + info['login'] + ')'}"></div>
     <div class="info-card">
       <div class="follow-area">
         <p v-if="info.name" class="name">Name: {{info.name}}</p>
@@ -21,10 +22,10 @@
       <p v-if="info.email"><span class="icon-envelop icon"></span>{{info.email}}</p>
       <p v-if="info.blog"><span class="icon-earth icon"></span>{{info.blog}}</p>
     </div>
-    <button class="info-tab" @click="toRepos(info['login'])">Repositories<span class="num">{{info['public_repos']}}</span></button>
-    <button class="info-tab" @click="toGists(info['login'])">Gists<span class="num">{{info['public_gists']}}</span></button>
-    <button class="info-tab" @click="toFollowers(info['login'])">Followers<span class="num">{{info['followers']}}</span></button>
-    <button class="info-tab" @click="toFollowing(info['login'])">Following<span class="num">{{info['following']}}</span></button>
+    <button class="info-tab" @click="toRepos()">Repositories<span class="num">{{info['public_repos']}}</span></button>
+    <button class="info-tab" @click="toGists()">Gists<span class="num">{{info['public_gists']}}</span></button>
+    <button class="info-tab" @click="toFollowers()">Followers<span class="num">{{info['followers']}}</span></button>
+    <button class="info-tab" @click="toFollowing()">Following<span class="num">{{info['following']}}</span></button>
     <button @click="signOut" class="signOut-button">Sign out</button>
   </div>
 </template>
@@ -51,18 +52,32 @@ export default {
       this.$emit('signOut')
     },
     toRepos () {
-      console.log('项目文件')
-    },
-    toGists () {
-      console.log('星标文件')
-    },
-    toFollowers (user) {
-      wx.navigateTo({
-        url: `/pages/followers/main?login=${user}`
+      wx.showToast({
+        title: '开发中...',
+        icon: 'loading',
+        duration: 1500
       })
     },
+    toGists () {
+      if (this.info['public_gists']) {
+        wx.navigateTo({
+          url: `/pages/gists/main?login=${this.info['login']}`
+        })
+      }
+    },
+    toFollowers () {
+      if (this.info['followers']) {
+        wx.navigateTo({
+          url: `/pages/followers/main?login=${this.info['login']}`
+        })
+      }
+    },
     toFollowing () {
-      console.log('标志文件')
+      wx.showToast({
+        title: '开发中...',
+        icon: 'loading',
+        duration: 1500
+      })
     }
   }
 }
@@ -113,6 +128,14 @@ export default {
     right: 0;
     z-index: 10;
   }
+}
+.ghchart {
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  background-repeat: no-repeat;
+  background-size: contain;
+  margin-top: 20px;
 }
 .info-card {
   margin-top: 20px;
