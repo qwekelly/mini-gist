@@ -41,8 +41,8 @@ export const getUserGists= user => {
 }
 
 // 获取单个gist详情
-export const getGistDetail= (user, gist_id) => {
-  return request(`/users/${user}/gists/${gist_id}`, 'GET')
+export const getGistDetail= url => {
+  return request(`${url}`, 'GET')
 }
 
 // // 登录github账号

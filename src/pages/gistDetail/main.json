@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "GistDetail",
+  "usingComponents": {
+    "wemark": "../../static/wemark/wemark"
+  }
+}

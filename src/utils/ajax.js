@@ -2,9 +2,10 @@ import {host} from '@/api/host'
 
 function request(url,method,data,header={}) {
   wx.showLoading({title: 'Loading...'})
+  let requestUrl = url.indexOf('http') !== -1 ? url : host + url
   return new Promise((resolve,reject)=>{
     wx.request({
-      url: `${host}${url}`,
+      url: `${requestUrl}`,
       method,
       data,
       header: {

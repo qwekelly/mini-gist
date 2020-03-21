@@ -4,7 +4,8 @@
     "pages/mine/main",
     "pages/login/main",
     "pages/followers/main",
-    "pages/gists/main"
+    "pages/gists/main",
+    "pages/gistDetail/main"
   ],
   "window": {
     "backgroundTextStyle": "light",

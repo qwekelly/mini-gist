@@ -53,12 +53,12 @@ export default {
       return yy
     },
     handleGistItem (obj) {
-      console.log(obj)
-      wx.showToast({
-        title: '开发中...',
-        icon: 'loading',
-        duration: 1500
-      })
+      if (obj['raw_url']) {
+        wx.setStorageSync('gist-files', obj)
+        wx.navigateTo({
+          url: `/pages/gistDetail/main`
+        })
+      }
     }
   }
 }
